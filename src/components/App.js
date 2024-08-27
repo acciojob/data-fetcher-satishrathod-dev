@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./../styles/App.css";
 import axios from "axios";
 
-const fetchURL = "https://reqres.in/api/users";
+const fetchURL = "https://dummyjson.com/products";
 
 const App = () => {
   const [post, setPost] = useState(null);

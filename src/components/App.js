@@ -21,6 +21,7 @@ const App = () => {
           setData(productsData.length ? productsData : "[]"); // Handle empty array if no `products` key
         }
         setError(null); // Clear any previous errors
+        // error
       } catch (error) {
         setError("An error occurred: " + error.message);
         console.error("Error fetching data:", error);

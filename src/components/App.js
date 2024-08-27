@@ -9,30 +9,49 @@ const App = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // const getData = axios.get(fetchURL).then((response) => {
-    //   setPost(response.data);
-    //   console.log(response.data);
-    // });
-    // we will run this using axios
-    const getData = async () => {
-      try {
-        const response = await axios.get(fetchURL);
-        setData(response.data);
-        setError(null); // Clear any previous errors
-      } catch (error) {
-        setError("An error occurred while fetching data.");
-        console.error("Error fetching data:", error);
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   // const getData = axios.get(fetchURL).then((response) => {
+  //   //   setPost(response.data);
+  //   //   console.log(response.data);
+  //   // });
+  //   // we will run this using axios
+  //   const getData = async () => {
+  //     try {
+  //       const response = await axios.get(fetchURL);
+  //       setData(response.data);
+  //       setError(null); // Clear any previous errors
+  //     } catch (error) {
+  //       setError("No data found");
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
   // const getData = async () => {
   //   const response = await axios.get("https://reqres.in/api/users");
   //   console.log(response);
   // };
 
   // if (!post)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(fetchURL);
+        if (response.data && response.data.products) {
+          setData(response.data.products); // Assuming `response.data.products` is the actual data
+        } else {
+          setData([]); // Handle case where API returns no data
+        }
+        setError(null); // Clear any previous errors
+      } catch (error) {
+        setError("An error occurred: " + error.message);
+        console.error("Error fetching data:", error);
+      }
+    };
+    getData();
+  }, []);
+
   if (error) {
     return (
       <div>
@@ -62,7 +81,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Data</h1>
+      <h1>Data Fetched from API</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

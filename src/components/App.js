@@ -1,6 +1,5 @@
 import "regenerator-runtime/runtime";
 import React, { useEffect, useState } from "react";
-import "./../styles/App.css";
 import axios from "axios";
 
 const fetchURL = "https://dummyjson.com/products";
@@ -9,40 +8,13 @@ const App = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   // const getData = axios.get(fetchURL).then((response) => {
-  //   //   setPost(response.data);
-  //   //   console.log(response.data);
-  //   // });
-  //   // we will run this using axios
-  //   const getData = async () => {
-  //     try {
-  //       const response = await axios.get(fetchURL);
-  //       setData(response.data);
-  //       setError(null); // Clear any previous errors
-  //     } catch (error) {
-  //       setError("No data found");
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
-  // const getData = async () => {
-  //   const response = await axios.get("https://reqres.in/api/users");
-  //   console.log(response);
-  // };
-
-  // if (!post)
-
   useEffect(() => {
     const getData = async () => {
       try {
         const response = await axios.get(fetchURL);
-        if (response.data && response.data.products) {
-          setData(response.data.products); // Assuming `response.data.products` is the actual data
-        } else {
-          setData([]); // Handle case where API returns no data
-        }
+        // Check if response data has a `products` key or use `response.data` directly
+        const products = response.data.products || response.data;
+        setData(products.length ? products : "[]"); // Handle empty array case
         setError(null); // Clear any previous errors
       } catch (error) {
         setError("An error occurred: " + error.message);
@@ -61,7 +33,7 @@ const App = () => {
     );
   }
 
-  if (!data) {
+  if (data === null) {
     return (
       <div>
         <h1>Loading</h1>
@@ -70,15 +42,16 @@ const App = () => {
     );
   }
 
-  if (data.length === 0) {
+  if (data === "[]") {
     return (
       <div>
         <h1>No Data</h1>
-        <pre>No data found</pre>
+        <pre>{data}</pre>
       </div>
     );
   }
 
+  // Assuming data is an array of products
   return (
     <div>
       <h1>Data Fetched from API</h1>

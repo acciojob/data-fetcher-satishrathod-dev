@@ -36,6 +36,7 @@ const App = () => {
   if (error) {
     return (
       <div>
+        <h1>Error</h1>
         <pre>{error}</pre>
       </div>
     );
@@ -44,13 +45,24 @@ const App = () => {
   if (!data) {
     return (
       <div>
+        <h1>Loading</h1>
         <pre>Loading...</pre>
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div>
+        <h1>No Data</h1>
+        <pre>No data found</pre>
       </div>
     );
   }
 
   return (
     <div>
+      <h1>Data</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

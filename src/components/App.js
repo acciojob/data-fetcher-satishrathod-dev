@@ -13,8 +13,13 @@ const App = () => {
       try {
         const response = await axios.get(fetchURL);
         // Check if response data has a `products` key or use `response.data` directly
-        const products = response.data.products || response.data;
-        setData(products.length ? products : "[]"); // Handle empty array case
+        const productsData = response.data;
+        // const products = response.data.products;
+        if (productsData.products) {
+          setData(productsData.products.length ? productsData.products : "[]"); // Handle empty array
+        } else {
+          setData(productsData.length ? productsData : "[]"); // Handle empty array if no `products` key
+        }
         setError(null); // Clear any previous errors
       } catch (error) {
         setError("An error occurred: " + error.message);
